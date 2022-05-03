@@ -1,0 +1,58 @@
+.lancheListaItem {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  border: rgb(0, 0, 0) solid 4px;
+  background-image: url("../../assets/images/woodbackgrounditem.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 1.2%;
+  border-radius: 9%;
+  margin-bottom: 2%;
+  font-size: 1.2vw;
+  width: 25%;
+  height: 35%;
+  box-shadow: 6px 6px 10px black;
+}
+
+.lancheListaItem img {
+  border-radius: 15%;
+  width: 18vw;
+  height: 25vh;
+  box-shadow: 5px 5px 10px black;
+}
+
+.lancheListaItemCard button {
+  background: none;
+  padding: 4%;
+  font-size: 1vw;
+  color: white;
+  border: white solid 2px;
+  border-radius: 15%;
+}
+
+.lancheListaItemBadge {
+  width: 1.5vw;
+  height: 2vh;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-size: 1.2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: white solid 2px;
+  padding: 0.5%;
+  margin-bottom: 3%;
+}
+
+.lancheListaItemCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}

@@ -1,21 +1,16 @@
 import "../assets/style.css";
-import LancheLista from "../components/lancheLista";
+import LancheLista from "../components/lancheLista/lancheLista";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
 import { faCow } from "@fortawesome/free-solid-svg-icons";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Navbar from "../components/Navbar/navbar";
 
 export default function Home() {
   return (
     <div className="Home">
-      <div className="Home-header">
-        <div className="header-logo">
-          <h1>Cowboy Burger</h1>
-        </div>
-        <div className="cart-option">
-          <FontAwesomeIcon icon={faCartShopping} class="cart" />
-        </div>
+      <div>
+        <Navbar />
       </div>
       <div className="Home__container">
         <LancheLista />
