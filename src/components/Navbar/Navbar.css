@@ -15,6 +15,12 @@
   margin-bottom: 2%;
 }
 
+@media (max-width: 1000px){
+  .cart {
+    width: 8%;
+  }
+}
+
 .header-logo {
   font-family: ms Madi;
   border: black solid 4px;
