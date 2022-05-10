@@ -31,11 +31,27 @@ export default function LancheListaItem({
     );
 
   const badgeAction = (canRender) => {
-    if (canRender) return <span className="lancheListaItem__tag">{mode}</span>;
+    if (canRender)
+      return (
+        <span
+          className={`lancheListaItem__tag ${
+            mode === ActionMode.DELETAR && "lancheListaItem__tag-deletar"
+          }`}
+        >
+          {" "}
+          {mode}
+        </span>
+      );
   };
 
   return (
-    <div className="lancheListaItemCard" onClick={() => clickItem(lanche.id)}>
+    <div
+      className={`lancheListaItemCard 
+      ${mode !== ActionMode.NORMAL && "lancheListaItemCard--disable"} 
+      ${mode === ActionMode.DELETAR && "lancheListaItemCard--deletar"}
+      `}
+      onClick={() => clickItem(lanche.id)}
+    >
       {badgeCounter(quantidadeSelecionada, index)}
       {badgeAction(mode !== ActionMode.NORMAL)}
       <div className="lancheLista-nome">{lanche.nome}</div>

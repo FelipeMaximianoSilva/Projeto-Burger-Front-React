@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar/navbar";
 import AdicionaEditaLancheModal from "../components/AdicionaEditaLancheModal/AdicionaEditaLancheModal";
 import { useState } from "react";
 import { ActionMode } from "../constants/index";
+import DeleteLancheModals from "components/DeleteLancheModal/DeleteLancheModal";
 
 export default function Home() {
   const [canShowAdicionaLancheModal, setCanShowAdicionaLancheModal] =
@@ -19,6 +20,10 @@ export default function Home() {
 
   const [lancheParaEditar, setLancheParaEditar] = useState();
   const [lancheParaDeletar, setLancheParaDeletar] = useState();
+
+  const [lancheEditado, setLancheEditado] = useState();
+
+  const [lancheRemovido, setLancheRemovido] = useState();
 
   const handleDeleteLanche = (lancheToDelete) => {
     setLancheParaDeletar(lancheToDelete);
@@ -39,6 +44,7 @@ export default function Home() {
     setLancheParaAdicionar();
     setLancheParaDeletar();
     setLancheParaEditar();
+    setModoAtual(ActionMode.NORMAL);
   };
 
   return (
@@ -48,12 +54,15 @@ export default function Home() {
           mode={modoAtual}
           createLanche={() => setCanShowAdicionaLancheModal(true)}
           updateLanche={() => handleActions(ActionMode.ATUALIZAR)}
+          deleteLanche={() => handleActions(ActionMode.DELETAR)}
         />
       </div>
       <div className="Home__container">
         <LancheLista
           mode={modoAtual}
           lancheCriado={lancheParaAdicionar}
+          lancheEditado={lancheEditado}
+          lancheRemovido={lancheRemovido}
           deleteLanche={handleDeleteLanche}
           updateLanche={handleUpdateLanche}
         />
@@ -61,8 +70,16 @@ export default function Home() {
           <AdicionaEditaLancheModal
             mode={modoAtual}
             lancheToUpdate={lancheParaEditar}
+            onUpdateLanche={(lanche) => setLancheEditado(lanche)}
             closeModal={handleCloseModal}
             onCreateLanche={(lanche) => setLancheParaAdicionar(lanche)}
+          />
+        )}
+        {lancheParaDeletar && (
+          <DeleteLancheModals
+            lancheParaDeletar={lancheParaDeletar}
+            closeModal={handleCloseModal}
+            onDeleteLanche={(lanche) => setLancheRemovido(lanche)}
           />
         )}
       </div>

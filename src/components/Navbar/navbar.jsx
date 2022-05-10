@@ -3,9 +3,15 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import plussymbol from "../../assets/icons/plussymbol.png";
 import edit from "../../assets/icons/edit.png";
+import trash from "../../assets/icons/trash.png";
 import { ActionMode } from "../../constants/index";
 
-export default function Navbar({ createLanche, updateLanche, mode }) {
+export default function Navbar({
+  createLanche,
+  updateLanche,
+  mode,
+  deleteLanche,
+}) {
   return (
     <div className="Home-header">
       <div className="header-logo">
@@ -33,6 +39,14 @@ export default function Navbar({ createLanche, updateLanche, mode }) {
           onClick={() => updateLanche()}
         >
           <img src={edit} className="Atualizar__icone" alt="Atualizar Lanche" />
+        </button>
+        <button
+          type="button"
+          className={`delete-lanche
+          ${mode === ActionMode.DELETAR && "lanche-ativo"}`}
+          onClick={() => deleteLanche()}
+        >
+          <img src={trash} className="Atualizar__icone" alt="Deletar Lanche" />
         </button>
       </div>
     </div>

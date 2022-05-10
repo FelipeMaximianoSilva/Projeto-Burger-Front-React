@@ -10,6 +10,8 @@ export default function LancheLista({
   mode,
   updateLanche,
   deleteLanche,
+  lancheEditado,
+  lancheRemovido,
 }) {
   const [lanches, setLanches] = useState([]);
 
@@ -65,7 +67,7 @@ export default function LancheLista({
 
   useEffect(() => {
     getLista();
-  }, []);
+  }, [lancheEditado, lancheRemovido]);
 
   return (
     <div className="lancheLista">

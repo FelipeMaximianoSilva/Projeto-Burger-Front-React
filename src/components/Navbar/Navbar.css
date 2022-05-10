@@ -34,7 +34,8 @@
 }
 
 .adicionar-lanche,
-.update-lanche {
+.update-lanche,
+.delete-lanche {
   margin: 2%;
   background: none;
   width: 90%;
