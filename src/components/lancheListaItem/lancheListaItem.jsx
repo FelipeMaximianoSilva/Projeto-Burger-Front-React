@@ -28,7 +28,7 @@ export default function LancheListaItem({
       <div className="lancheLista-preco">R$ {lanche.preco.toFixed(2)}</div>
       <br></br>
       <div className="lancheLista-img">
-        <img src={lanche.img} alt="Imagem do {lanche.nome}" />
+        <img src={lanche.img} alt={`Imagem do ${lanche.nome}`} />
       </div>
       <br></br>
       <div className="lancheLista-description">{lanche.description}</div>

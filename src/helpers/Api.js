@@ -1,15 +1,15 @@
 const lancheContext = {
   lancheEndpoint: () => `${Api.baseUrl}/lanches`,
-  lancheLista: () => `${lancheContext.lancheEndpoint()}/lanches`,
-  lancheById: (id) => `${lancheContext.lancheEndpoint()}/lanches/${id}`,
-  createLanche: () => `${lancheContext.lancheEndpoint()}/create-lanche`,
+  lancheLista: () => `${lancheContext.lancheEndpoint()}/find-lanches`,
+  lancheById: (id) => `${lancheContext.lancheEndpoint()}/find-lanches/${id}`,
+  createLanche: () => `${lancheContext.lancheEndpoint()}/create`,
   updateLancheById: (id) =>
-    `${lancheContext.lancheEndpoint()}/update-lanche/${id}`,
+    `${lancheContext.lancheEndpoint()}/update/${id}`,
   deleteLancheById: (id) =>
-    `${lancheContext.lancheEndpoint()}/delete-lanche/${id}`,
+    `${lancheContext.lancheEndpoint()}/delete/${id}`,
 };
 
 export const Api = {
-  baseUrl: "https://projeto-burger-front-react-production.up.railway.app",
+  baseUrl: "https://api-projeto-burger.onrender.com",
   ...lancheContext,
 };
