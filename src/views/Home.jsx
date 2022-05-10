@@ -5,8 +5,9 @@ import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
 import { faCow } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar/navbar";
-import AdicionaLancheModal from "../components/AdicionaEditaLancheModal/AdicionaEditaLancheModal";
+import AdicionaEditaLancheModal from "../components/AdicionaEditaLancheModal/AdicionaEditaLancheModal";
 import { useState } from "react";
+import { ActionMode } from "../constants/index";
 
 export default function Home() {
   const [canShowAdicionaLancheModal, setCanShowAdicionaLancheModal] =
@@ -14,16 +15,53 @@ export default function Home() {
 
   const [lancheParaAdicionar, setLancheParaAdicionar] = useState();
 
+  const [modoAtual, setModoAtual] = useState(ActionMode.NORMAL);
+
+  const [lancheParaEditar, setLancheParaEditar] = useState();
+  const [lancheParaDeletar, setLancheParaDeletar] = useState();
+
+  const handleDeleteLanche = (lancheToDelete) => {
+    setLancheParaDeletar(lancheToDelete);
+  };
+
+  const handleUpdateLanche = (lancheToUpdate) => {
+    setLancheParaEditar(lancheToUpdate);
+    setCanShowAdicionaLancheModal(true);
+  };
+
+  const handleActions = (action) => {
+    const novaAcao = modoAtual === action ? ActionMode.NORMAL : action;
+    setModoAtual(novaAcao);
+  };
+
+  const handleCloseModal = () => {
+    setCanShowAdicionaLancheModal(false);
+    setLancheParaAdicionar();
+    setLancheParaDeletar();
+    setLancheParaEditar();
+  };
+
   return (
     <div className="Home">
       <div>
-        <Navbar createLanche={() => setCanShowAdicionaLancheModal(true)} />
+        <Navbar
+          mode={modoAtual}
+          createLanche={() => setCanShowAdicionaLancheModal(true)}
+          updateLanche={() => handleActions(ActionMode.ATUALIZAR)}
+        />
       </div>
       <div className="Home__container">
-        <LancheLista lancheCriado={lancheParaAdicionar} />
+        <LancheLista
+          mode={modoAtual}
+          lancheCriado={lancheParaAdicionar}
+          deleteLanche={handleDeleteLanche}
+          updateLanche={handleUpdateLanche}
+        />
         {canShowAdicionaLancheModal && (
-          <AdicionaLancheModal
-            closeModal={() => setCanShowAdicionaLancheModal(false)}
+          <AdicionaEditaLancheModal
+            mode={modoAtual}
+            lancheToUpdate={lancheParaEditar}
+            closeModal={handleCloseModal}
             onCreateLanche={(lanche) => setLancheParaAdicionar(lanche)}
           />
         )}

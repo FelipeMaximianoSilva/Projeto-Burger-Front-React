@@ -1,10 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import LancheListaItem from "../lancheListaItem/lancheListaItem";
 import "./lancheLista.css";
 import { LancheService } from "../../services/LancheServices";
 import LancheDetalhesModal from "../lancheDetalheModal/LancheDetalheModal";
+import { ActionMode } from "../../constants/index";
 
-export default function LancheLista({ lancheCriado }) {
+export default function LancheLista({
+  lancheCriado,
+  mode,
+  updateLanche,
+  deleteLanche,
+}) {
   const [lanches, setLanches] = useState([]);
 
   const [lancheSelecionado, setLancheSelecionado] = useState({});
@@ -27,18 +33,30 @@ export default function LancheLista({ lancheCriado }) {
 
   const getLancheById = async (lancheId) => {
     const response = await LancheService.getById(lancheId);
-    setLancheModal(response);
-    console.log(response);
+    const mapper = {
+      [ActionMode.NORMAL]: () => setLancheModal(response),
+      [ActionMode.ATUALIZAR]: () => updateLanche(response),
+      [ActionMode.DELETAR]: () => deleteLanche(response),
+    };
+    mapper[mode]();
   };
 
-  const adicionaLancheNaLista = (lanche) => {
-    const lista = [...lanches, lanche];
-    setLanches(lista);
-  };
+  const adicionaLancheNaLista = useCallback(
+    (lanche) => {
+      const lista = [...lanches, lanche];
+      setLanches(lista);
+    },
+    [lanches]
+  );
 
   useEffect(() => {
-    if (lancheCriado) adicionaLancheNaLista(lancheCriado);
-  }, [lancheCriado]);
+    if (
+      lancheCriado &&
+      !lanches.map(({ id }) => id).includes(lancheCriado.id)
+    ) {
+      adicionaLancheNaLista(lancheCriado);
+    }
+  }, [adicionaLancheNaLista, lancheCriado, lanches]);
 
   const getLista = async () => {
     const response = await LancheService.getLista();
@@ -54,6 +72,7 @@ export default function LancheLista({ lancheCriado }) {
       {lanches.map((lanche, index) => (
         <div className="lancheListaItem">
           <LancheListaItem
+            mode={mode}
             key={`lancheListaItem-${index}`}
             lanche={lanche}
             quantidadeSelecionada={lancheSelecionado[index]}

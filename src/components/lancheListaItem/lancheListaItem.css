@@ -57,3 +57,12 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+.lancheListaItem__tag {
+  padding: 2%;
+  margin-bottom: 3%;
+  background-color: goldenrod;
+  color: black;
+  border: white solid 2px;
+  border-radius: 12%;
+}

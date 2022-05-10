@@ -2,8 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import plussymbol from "../../assets/icons/plussymbol.png";
+import edit from "../../assets/icons/edit.png";
+import { ActionMode } from "../../constants/index";
 
-export default function Navbar({ createLanche }) {
+export default function Navbar({ createLanche, updateLanche, mode }) {
   return (
     <div className="Home-header">
       <div className="header-logo">
@@ -20,10 +22,17 @@ export default function Navbar({ createLanche }) {
         >
           <img
             src={plussymbol}
-            width="10%"
             className="Lanche__icone"
             alt="Adiconar Lanche"
           />
+        </button>
+        <button
+          type="button"
+          className={`update-lanche
+          ${mode === ActionMode.ATUALIZAR && "lanche-ativo"}`}
+          onClick={() => updateLanche()}
+        >
+          <img src={edit} className="Atualizar__icone" alt="Atualizar Lanche" />
         </button>
       </div>
     </div>

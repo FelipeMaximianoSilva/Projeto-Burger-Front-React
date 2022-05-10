@@ -30,8 +30,15 @@ export const LancheService = {
       mode: "cors",
       headers: { "Content-Type": "application/json" },
     }).then(parseResponse),
-  updtateById: (id) =>
-    fetch(Api.updateLancheById(id), { method: "PUT" }).then(parseResponse),
+  updtateById: (id, lanche) =>
+    fetch(Api.updateLancheById(id), {
+      method: "PUT",
+      body: JSON.stringify(lanche),
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(parseResponse),
   deleteById: (id) =>
     fetch(Api.deleteLancheById(id), { method: "DELETE" }).then(parseResponse),
 };

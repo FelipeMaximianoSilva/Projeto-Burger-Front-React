@@ -33,7 +33,8 @@
   font-size: 1.5vw;
 }
 
-.adicionar-lanche {
+.adicionar-lanche,
+.update-lanche {
   margin: 2%;
   background: none;
   width: 90%;
@@ -43,8 +44,21 @@
 .Header-adicionar {
   background: none;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.Lanche__icone {
+.Header-adicionar img {
+  width: 80%;
   cursor: pointer;
+}
+
+.Header-adicionar button {
+  width: 6%;
+}
+
+.lanche-ativo {
+  border-radius: 95%;
+  background-color: black;
 }

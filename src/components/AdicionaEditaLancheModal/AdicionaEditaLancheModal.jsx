@@ -2,14 +2,21 @@ import { useState } from "react";
 import Modal from "components/Modal/Modal";
 import "./AdicionaEditaLancheModal.css";
 import { LancheService } from "services/LancheServices";
+import { ActionMode } from "../../constants/index";
 
-export default function AdicionaLancheModal({ closeModal, onCreateLanche }) {
+export default function AdicionaEditaLancheModal({
+  closeModal,
+  onCreateLanche,
+  mode,
+  lancheToUpdate,
+  onUpdateLanche,
+}) {
   const form = {
-    nome: "",
-    preco: "",
-    tipo: "",
-    description: "",
-    img: "",
+    nome: lancheToUpdate?.nome ?? "",
+    preco: lancheToUpdate?.preco ?? "",
+    tipo: lancheToUpdate?.tipo ?? "",
+    description: lancheToUpdate?.description ?? "",
+    img: lancheToUpdate?.img ?? "",
   };
 
   const [state, setState] = useState(form);
@@ -18,12 +25,13 @@ export default function AdicionaLancheModal({ closeModal, onCreateLanche }) {
     setState({ ...state, [name]: e.target.value });
   };
 
-  const lancheCreate = async () => {
+  const handleSend = async () => {
     const renomeiaCaminhoImg = (imgPath) => imgPath.split("\\").pop();
 
     const { nome, preco, tipo, description, img } = state;
 
     const lanche = {
+      ...(lancheToUpdate && { _id: lancheToUpdate?.id }),
       nome,
       preco,
       tipo,
@@ -31,9 +39,30 @@ export default function AdicionaLancheModal({ closeModal, onCreateLanche }) {
       img: `assets/images/${renomeiaCaminhoImg(img)}`,
     };
 
-    const response = await LancheService.create(lanche);
+    const serviceCall = {
+      [ActionMode.NORMAL]: () => LancheService.create(lanche),
+      [ActionMode.ATUALIZAR]: () =>
+        LancheService.updtateById(lancheToUpdate?.id, lanche),
+    };
 
-    onCreateLanche(response);
+    const response = await serviceCall[mode]();
+
+    const actionResponse = {
+      [ActionMode.NORMAL]: () => onCreateLanche(response),
+      [ActionMode.ATUALIZAR]: () => onUpdateLanche(response),
+    };
+
+    actionResponse[mode]();
+
+    const reset = {
+      nome: "",
+      preco: "",
+      tipo: "",
+      description: "",
+      img: "",
+    };
+
+    setState(reset);
 
     closeModal();
   };
@@ -42,7 +71,11 @@ export default function AdicionaLancheModal({ closeModal, onCreateLanche }) {
     <Modal closeModal={closeModal}>
       <div className="AdicionaLancheModal">
         <form autocomplete="off">
-          <h2> Adicionar ao Cardápio </h2>
+          <h2>
+            {" "}
+            {ActionMode.ATUALIZAR === mode ? "Atualizar" : "Adicionar ao"}{" "}
+            Cardápio{" "}
+          </h2>
           <div>
             <label className="AdicionaLancheModal__text" htmlFor="preco">
               {" "}
@@ -112,18 +145,19 @@ export default function AdicionaLancheModal({ closeModal, onCreateLanche }) {
               id="img"
               type="file"
               accept="image/png, image/gif, image/jpeg"
-              value={state.img}
               onChange={(e) => handleChange(e, "img")}
               required
             />
           </div>
 
-          <input
+          <button
             className="AdicionaLancheModal__enviar"
             type="button"
-            value="Enviar"
-            onClick={lancheCreate}
-          />
+            onClick={handleSend}
+          >
+            {" "}
+            {ActionMode.NORMAL === mode ? "Enviar" : "Atualizar"}
+          </button>
         </form>
       </div>
     </Modal>
