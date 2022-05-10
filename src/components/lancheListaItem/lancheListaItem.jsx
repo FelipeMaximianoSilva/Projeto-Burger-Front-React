@@ -7,10 +7,17 @@ export default function LancheListaItem({
   index,
   onRemove,
   onAdd,
+  clickItem,
 }) {
   const removeButton = (canRender, index) =>
     Boolean(canRender) && (
-      <button className="button-remover" onClick={() => onRemove(index)}>
+      <button
+        className="button-remover"
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(index);
+        }}
+      >
         Remover
       </button>
     );
@@ -21,7 +28,7 @@ export default function LancheListaItem({
     );
 
   return (
-    <div className="lancheListaItemCard">
+    <div className="lancheListaItemCard" onClick={() => clickItem(lanche.id)}>
       {badgeCounter(quantidadeSelecionada, index)}
       <div className="lancheLista-nome">{lanche.nome}</div>
       <br></br>
@@ -41,7 +48,10 @@ export default function LancheListaItem({
           className={`button-adicionar ${
             !quantidadeSelecionada && "button-adicionar-preencher"
           }`}
-          onClick={() => onAdd(index)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAdd(index);
+          }}
         >
           Adicionar
         </button>

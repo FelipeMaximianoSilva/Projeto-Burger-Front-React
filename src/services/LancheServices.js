@@ -2,13 +2,34 @@ import { Api } from "../helpers/Api";
 
 const parseResponse = (response) => response.json();
 
+const transformLanche = (lanche) => {
+  return {
+    ...lanche,
+    id: lanche._id,
+    nome: lanche.nome,
+    preco: lanche.preco,
+    img: lanche.img,
+  };
+};
+
+const parseTransformLista = (response) =>
+  parseResponse(response).then((lanche) => lanche.map(transformLanche));
+
+const parseTransformItem = (response) =>
+  parseResponse(response).then(transformLanche);
+
 export const LancheService = {
   getLista: () =>
-    fetch(Api.lancheLista(), { method: "GET" }).then(parseResponse),
+    fetch(Api.lancheLista(), { method: "GET" }).then(parseTransformLista),
   getById: (id) =>
-    fetch(Api.lancheById(id), { method: "GET" }).then(parseResponse),
-  create: () =>
-    fetch(Api.createLanche(), { method: "POST" }).then(parseResponse),
+    fetch(Api.lancheById(id), { method: "GET" }).then(parseTransformItem),
+  create: (lanche) =>
+    fetch(Api.createLanche(), {
+      method: "POST",
+      body: JSON.stringify(lanche),
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
+    }).then(parseResponse),
   updtateById: (id) =>
     fetch(Api.updateLancheById(id), { method: "PUT" }).then(parseResponse),
   deleteById: (id) =>
