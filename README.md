@@ -16,4 +16,12 @@ Front-end do projeto da Blue EdTech módulo 3
 
 Porta: 3000
 
-## Projeto ainda em desenvolvimento!
+## Projeto finalizado
+
+### Links para acesso ao front-end e back-end:
+
+- https://projeto-burger-front-react.vercel.app // Front-end em ReactJS
+
+- https://api-projeto-burger.onrender.com // Back-end com MongoDB e NodeJS
+
+
